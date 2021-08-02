@@ -1,0 +1,44 @@
+#
+# icmpengine/.gitlab-ci.yml
+#
+
+stages:
+  - test
+
+#-----------------------------------------
+# Caching
+# https://docs.gitlab.com/ee/ci/caching/#caching-go-dependencies
+.go-cache:
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+  before_script:
+    - mkdir -p .go
+  cache:
+    paths:
+      - .go/pkg/mod/
+
+#-----------------------------------------
+# Test
+icmpengine-test:
+  stage: test
+  extends: .go-cache
+  image: golang
+  script:
+    - date -u +"UTC %Y-%m-%d-%H:%M"
+    - pwd
+    - ls -la
+    - go version
+    - go env
+    - date -u +"UTC %Y-%m-%d-%H:%M"
+    # Run ICMPengine tests
+    - make
+    # Actually build
+    - cd cmd/icmpengine
+    - make
+    - ls -la
+    - ./icmpengine --help
+
+  # artifacts:
+  #   paths:
+  #     - ./cmd/icmpengine
+  #   expire_in: 1 week
