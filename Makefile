@@ -33,5 +33,3 @@ fakesuccess:
 race:
 	go test -race -failfast -timeout 2m
 
-sync:
-	rsync -avz --exclude '.git' ~/go/src/gitlab.edgecastcdn.net/dseddon/icmpengine/ /home/das/go/src/git.vzbuilders.com/dseddon/icmpengine/

@@ -1,4 +1,4 @@
-module gitlab.edgecastcdn.net/dseddon/icmpengine
+module github.com/EdgeCast/icmpengine
 
 go 1.16
 

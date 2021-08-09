@@ -15,7 +15,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"inet.af/netaddr"
 
-	"gitlab.edgecastcdn.net/dseddon/icmpengine"
+	"github.com/EdgeCast/icmpengine"
 )
 
 const (

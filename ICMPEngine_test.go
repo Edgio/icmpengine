@@ -7,7 +7,7 @@ import (
 	"time"
 
 	hclog "github.com/hashicorp/go-hclog"
-	"gitlab.edgecastcdn.net/dseddon/icmpengine"
+	"github.com/EdgeCast/icmpengine"
 	"inet.af/netaddr"
 )
 
