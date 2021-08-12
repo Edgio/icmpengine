@@ -80,6 +80,7 @@ type ReceiversT struct {
 	DoneCh     chan struct{}
 	DoneChs    map[Protocol]chan struct{}
 	Counts     map[Protocol]int
+	Splay      bool
 	Runnings   map[Protocol]bool
 	Running    bool
 	DebugLevel int
@@ -164,14 +165,14 @@ func New(l hclog.Logger, done chan struct{}, to time.Duration, rd time.Duration,
 		P:  PdebugLevel,
 	}
 
-	return NewFullConfig(l, done, to, rd, start, Receivers4Cst, Receivers6Cst, debugLevels, false)
+	return NewFullConfig(l, done, to, rd, start, Receivers4Cst, Receivers6Cst, SplayReceiversCst, debugLevels, false)
 }
 
 // NewFullConfig creates ICMPEngine with the full set of configuration options
 // Please note could icmpEngine.Start()
 // It is recommended NOT to actually start until you really need ICMPengine listening for incoming packets
 // e.g. You can defer opening the sockets, and starting the receivers until you actually need them
-func NewFullConfig(logger hclog.Logger, done chan struct{}, timeout time.Duration, deadline time.Duration, start bool, receivers4 int, receivers6 int, debugLevels DebugLevelsT, fakeSuccess bool) (icmpEngine *ICMPEngine) {
+func NewFullConfig(logger hclog.Logger, done chan struct{}, timeout time.Duration, deadline time.Duration, start bool, receivers4 int, receivers6 int, SplayReceivers bool, debugLevels DebugLevelsT, fakeSuccess bool) (icmpEngine *ICMPEngine) {
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -196,6 +197,7 @@ func NewFullConfig(logger hclog.Logger, done chan struct{}, timeout time.Duratio
 			DoneCh:     make(chan struct{}, 2),
 			DoneChs:    make(map[Protocol]chan struct{}),
 			Counts:     make(map[Protocol]int),
+			Splay:      SplayReceivers,
 			Runnings:   make(map[Protocol]bool),
 			DebugLevel: debugLevels.R,
 		},
@@ -231,20 +233,17 @@ func NewFullConfig(logger hclog.Logger, done chan struct{}, timeout time.Duratio
 	return icmpEngine
 }
 
-// StartReceivers starts the receivers, with default to splay the receiver start times
-// This essentailly means ReadFrom() syscall will be called every ReadDeadline period of time
-func (ie *ICMPEngine) StartReceivers() {
-	ie.StartReceiversSplay(true)
-}
-
 // StartReceiversSplay starts the receivers, with some sanity checking
-func (ie *ICMPEngine) StartReceiversSplay(splay bool) {
+// Splay the receiver start times, means this will essentailly offset the start time
+// of the receivers, but this slows down the startup time
+func (ie *ICMPEngine) StartReceiversSplay() {
 
 	if ie.DebugLevel > 10 {
-		ie.Log.Info(fmt.Sprintf("StartReceiversSplay splay:%t", splay))
+		ie.Log.Info(fmt.Sprintf("StartReceiversSplay"))
 	}
 
 	ie.RLock()
+	splay := ie.Receivers.Splay
 	if ie.Receivers.Running {
 		if ie.DebugLevel > 10 {
 			ie.Log.Info("StartReceiversSplay ie.Receivers.Running")
@@ -333,11 +332,6 @@ func (ie *ICMPEngine) OpenDoneChannels(fakeSuccess bool) {
 // not actually running much until Start() is called
 // This is possibly an premature optimization.
 func (ie *ICMPEngine) Start() {
-	ie.StartSplay(SplayReceiversCst)
-}
-
-// StartSplay OpenSockets and starts the Receivers
-func (ie *ICMPEngine) StartSplay(splay bool) {
 
 	if ie.DebugLevel > 10 {
 		ie.Log.Info("ICMPEngine Start")
@@ -359,7 +353,7 @@ func (ie *ICMPEngine) StartSplay(splay bool) {
 
 	ie.OpenSockets()
 
-	ie.StartReceiversSplay(splay)
+	ie.StartReceiversSplay()
 
 	if ie.DebugLevel > 10 {
 		ie.Log.Info("ICMPEngine Started")

@@ -14,10 +14,14 @@ clean:
 	rm -rf icmpengine
 
 lo:
-	./icmpengine --ip 127.0.0.1 
+	./icmpengine --dest 127.0.0.1,::1
+	./icmpengine --dest 127.0.0.1,::1 --count 100
+
+los:
+	./icmpengine --dest 127.0.0.1,::1 --splay
 
 google:
-	./icmpengine --ip 8.8.8.8
+	./icmpengine --dest 8.8.8.8,8.8.4.4
 
 race:
 	go run -race main.go 

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -31,7 +32,7 @@ var (
 
 func main() {
 
-	//ip := flag.String("ip", , "IP destination")
+	dest := flag.String("dest", "127.0.0.1,::1", "Destination IPs to ping, comma seperated, e.g. 8.8.8.8,8.8.4.4")
 	count := flag.Int("count", 10, "Count of icmps to send.")
 	interval := flag.Duration("interval", 10*time.Millisecond, "Interval between icmp echo request message sent.")
 	timeout := flag.Duration("timeout", 200*time.Millisecond, "Timeout to wait for arrival of a echo response message, before declaring it dropped.")
@@ -113,8 +114,8 @@ func main() {
 	}
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, *timeout, *readDeadline, false, *r4, *r6, debugLevels, false)
-	ie.StartSplay(*splayReceivers)
+	ie := icmpengine.NewFullConfig(logger, doneAll, *timeout, *readDeadline, false, *r4, *r6, *splayReceivers, debugLevels, false)
+	ie.Start()
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	if debugLevel > 100 {
@@ -122,7 +123,9 @@ func main() {
 	}
 	go ie.Run(wg)
 
-	var ips []string = []string{"127.0.0.1", "::1"}
+	ips := strings.Split(*dest, ",")
+
+	// var ips []string = []string{"127.0.0.1", "::1"}
 	// var ips []string
 	// ips = []string{"127.0.0.1", "::1"}
 	// if len(*ip) > 0 {

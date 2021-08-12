@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	hclog "github.com/hashicorp/go-hclog"
 	"github.com/EdgeCast/icmpengine"
+	hclog "github.com/hashicorp/go-hclog"
 	"inet.af/netaddr"
 )
 
@@ -391,8 +391,9 @@ func TestPinger(t *testing.T) {
 	debugLevels := icmpengine.GetDebugLevels(debugLevel)
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, debugLevels, fakeSuccesCst)
-	ie.StartSplay(false) // faster starting for testing
+	// no splay faster starting for testing
+	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, false, debugLevels, fakeSuccesCst)
+	ie.Start()
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	go ie.Run(wg)
@@ -453,7 +454,7 @@ func TestPingerWithStatsChannel(t *testing.T) {
 	debugLevels := icmpengine.GetDebugLevels(debugLevel)
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, debugLevels, fakeSuccesCst)
+	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, false, debugLevels, fakeSuccesCst)
 
 	pDone := make(chan struct{}, 2)
 
@@ -473,7 +474,7 @@ func TestPingerWithStatsChannel(t *testing.T) {
 		logger.Info(fmt.Sprintf("TestPingerWithStatsChannel\t i:%d \t test.IPs:%s \t len(test.IPs):%d", i, test.IPs, len(test.IPs)))
 		logger.Info("######################################################")
 
-		ie.StartSplay(false) // faster starting for testing
+		ie.Start()
 		wg := new(sync.WaitGroup)
 		wg.Add(1)
 		go ie.Run(wg)
@@ -559,11 +560,11 @@ func TestRunStopLoop(t *testing.T) {
 	debugLevels := icmpengine.GetDebugLevels(10)
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, debugLevels, fakeSuccesCst)
+	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, false, debugLevels, fakeSuccesCst)
 
 	for i := 0; i < 10; i++ {
 
-		ie.StartSplay(false) // faster starting for testing
+		ie.Start()
 		wg := new(sync.WaitGroup)
 		wg.Add(1)
 		go ie.Run(wg)
@@ -745,8 +746,8 @@ func TestPingerFakeDrop(t *testing.T) {
 	debugLevels := icmpengine.GetDebugLevels(debugLevel)
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, debugLevels, fakeSuccesCst)
-	ie.StartSplay(false) // faster starting for testing
+	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, false, debugLevels, fakeSuccesCst)
+	ie.Start()
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	go ie.Run(wg)
@@ -815,8 +816,8 @@ func TestPingerFakeSuccess(t *testing.T) {
 	interval := 1 * time.Microsecond
 
 	doneAll := make(chan struct{}, 2)
-	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, debugLevels, fakeSuccess)
-	ie.StartSplay(false) // faster starting for testing
+	ie := icmpengine.NewFullConfig(logger, doneAll, timeoutT, readDeadlineT, false, 2, 2, false, debugLevels, fakeSuccess)
+	ie.Start()
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 	go ie.Run(wg)
