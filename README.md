@@ -55,3 +55,10 @@ require (
 	inet.af/netaddr v0.0.0-20210721214506-ce7a8ad02cc1
 )
 ```
+
+How to tag
+```
+git tag
+git tag -a v1.0.1 -m "v1.0.1"
+git push origin --tags
+```
