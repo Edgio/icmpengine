@@ -1,3 +1,5 @@
+// Copyright 2021 Edgecast Inc
+
 package icmpengine
 
 // Sockets holds the OpenSockets/CloseSockets functions

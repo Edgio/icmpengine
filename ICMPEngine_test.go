@@ -1,3 +1,5 @@
+// Copyright 2021 Edgecast Inc
+
 package icmpengine_test
 
 import (

@@ -1,3 +1,5 @@
+// Copyright 2021 Edgecast Inc
+
 package icmpengine
 
 // This file contains the main ICMPEngine data structures

@@ -1,3 +1,5 @@
+# Copyright 2021 Edgecast Inc
+
 all:
 	date -u +"UTC %Y-%m-%d-%H:%M"
 	echo "go test"

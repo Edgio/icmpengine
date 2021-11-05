@@ -1,3 +1,5 @@
+# Copyright 2021 Edgecast Inc
+
 COMMIT=$(shell /bin/git describe --always)
 DATE=$(shell /bin/date -u +"%Y-%m-%d-%H:%M")
 
