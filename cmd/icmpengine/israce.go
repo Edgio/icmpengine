@@ -1,4 +1,4 @@
-// Copyright 2021 Edgecast Inc
+// Copyright 2021 Edgio Inc
 
 // +build race
 

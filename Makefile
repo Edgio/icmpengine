@@ -1,4 +1,4 @@
-# Copyright 2021 Edgecast Inc
+# Copyright 2021 Edgio Inc
 
 all:
 	date -u +"UTC %Y-%m-%d-%H:%M"

@@ -1,4 +1,4 @@
-// Copyright 2021 Edgecast Inc
+// Copyright 2021 Edgio Inc
 
 package icmpengine_test
 
@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EdgeCast/icmpengine"
+	"github.com/edgioinc/icmpengine"
 	hclog "github.com/hashicorp/go-hclog"
 	"inet.af/netaddr"
 )
@@ -894,15 +894,15 @@ func TestIsRace(t *testing.T) {
 }
 
 // https://stackoverflow.com/questions/44944959/how-can-i-check-if-the-race-detector-is-enabled-at-runtime
-// das@das-dell5580:~/go/src/gitlab.edgecastcdn.net/dseddon/icmpengine$ go test -race --run TestIsRace
+// das@das-dell5580:~/go/src/gitlab.edgio.net/dseddon/icmpengine$ go test -race --run TestIsRace
 // 2021-06-28T17:38:43.806-0700 [INFO]
 
 // TestIsRace: true
 // PASS
-// ok  	gitlab.edgecastcdn.net/dseddon/icmpengine	0.023s
-// das@das-dell5580:~/go/src/gitlab.edgecastcdn.net/dseddon/icmpengine$ go test --run TestIsRace
+// ok  	gitlab.edgio.net/dseddon/icmpengine	0.023s
+// das@das-dell5580:~/go/src/gitlab.edgio.net/dseddon/icmpengine$ go test --run TestIsRace
 // 2021-06-28T17:38:51.603-0700 [INFO]
 
 // TestIsRace: false
 // PASS
-// ok  	gitlab.edgecastcdn.net/dseddon/icmpengine	0.002s
+// ok  	gitlab.edgio.net/dseddon/icmpengine	0.002s

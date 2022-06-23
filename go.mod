@@ -1,6 +1,6 @@
-// Copyright 2021 Edgecast Inc
+// Copyright 2021 Edgio Inc
 
-module github.com/EdgeCast/icmpengine
+module github.com/edgioinc/icmpengine
 
 go 1.16
 

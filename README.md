@@ -40,8 +40,8 @@ golang.org/x/net v0.0.0-20210726213435-c6fcb2dbf985            | BSD            
 inet.af/netaddr v0.0.0-20210721214506-ce7a8ad02cc1             | BSD-3           | https://pkg.go.dev/inet.af/netaddr?tab=licenses
 
 ```
-das@das-dell5580:~/go/src/gitlab.edgecastcdn.net/dseddon/icmpengine$ cat go.mod 
-module gitlab.edgecastcdn.net/dseddon/icmpengine
+das@das-dell5580:~/go/src/gitlab.edgio.net/dseddon/icmpengine$ cat go.mod 
+module gitlab.edgio.net/dseddon/icmpengine
 
 go 1.16
 

@@ -1,4 +1,4 @@
-// Copyright 2021 Edgecast Inc
+// Copyright 2021 Edgio Inc
 
 package main
 
@@ -18,7 +18,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"inet.af/netaddr"
 
-	"github.com/EdgeCast/icmpengine"
+	"github.com/Edgio/icmpengine"
 )
 
 const (
